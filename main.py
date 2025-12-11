@@ -18,16 +18,3 @@ def greet_user(name: str, style="friendly") -> str:
         "casual": "Please write a casual, relaxed greeting",
     }
     return f"{styles.get(style, styles['friendly'])} for someone named {name}."
-
-if __name__ == "__main__":
-    import os
-    import sys
-    
-    # Set host and port as command-line arguments that uvicorn will use
-    host = os.environ.get("HOST", "0.0.0.0")
-    port = os.environ.get("PORT", "8080")
-    
-    # Patch sys.argv to pass host and port to uvicorn
-    sys.argv.extend(["--host", host, "--port", port])
-    
-    mcp.run(transport="streamable-http")

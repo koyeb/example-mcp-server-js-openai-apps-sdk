@@ -9,7 +9,4 @@ COPY . .
 
 EXPOSE 8080
 
-ENV HOST=0.0.0.0
-ENV PORT=8080
-
-CMD ["python", "main.py"]
+CMD ["fastmcp", "run", "main.py", "--transport", "streamable-http", "--host", "0.0.0.0", "--port", "8080"]
