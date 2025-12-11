@@ -22,6 +22,11 @@ def greet_user(name: str, style="friendly") -> str:
     }
     return f"{styles.get(style, styles['friendly'])} for someone named {name}."
 
+# Create a basic tool that counts the number of a a specific letter in a string
+@mcp.tool()
+def count_letter(text: str, letter: str) -> int:
+    return text.lower().count(letter.lower())
+
 # Create ASGI app using FastMCP's streamable_http_app() method
 app = mcp.streamable_http_app()
 
