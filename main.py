@@ -106,35 +106,6 @@ def complete_todo(todo_id: str = Field(..., description="The ID of the todo to c
 # Create the FastMCP app
 app = mcp.streamable_http_app()
 
-# Add middleware to log request details and fix proxy issues
-from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.requests import Request
-from starlette.middleware.trustedhost import TrustedHostMiddleware
-import logging
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-class DebugMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request: Request, call_next):
-        logger.info(f"=== Incoming Request ===")
-        logger.info(f"Method: {request.method}")
-        logger.info(f"URL: {request.url}")
-        logger.info(f"Headers: {dict(request.headers)}")
-        logger.info(f"Client: {request.client}")
-        logger.info(f"======================")
-        try:
-            response = await call_next(request)
-            logger.info(f"Response status: {response.status_code}")
-            return response
-        except Exception as e:
-            logger.error(f"Error processing request: {e}")
-            raise
-
-# Allow all hosts (since we're behind Cloudflare)
-app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
-app.add_middleware(DebugMiddleware)
-
 port = int(os.environ.get("PORT", 8080))
 print(f"Listening on port {port}")
 
