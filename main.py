@@ -58,7 +58,7 @@ def add_todo(title: str = Field(..., description="The title of the todo item")) 
     
     payload = TodoPayload(tasks=todos, message=f'Added "{todo["title"]}".')
     return types.CallToolResult(
-        content=[types.TextContent(type="text", text=f'Added "{todo["title]}".')],
+        content=[types.TextContent(type="text", text=f'Added "{todo["title"]}".')],
         structuredContent=payload.model_dump(mode="json"),
         _meta=tool_meta("add_todo"),
         isError=False,
