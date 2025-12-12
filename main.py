@@ -1,4 +1,5 @@
 from mcp.server.fastmcp import FastMCP
+from mcp.types import TextContent, Tool
 import os
 import uvicorn
 
@@ -18,17 +19,9 @@ next_id = 1
 def get_todo_widget() -> str:
     return todo_html
 
-def reply_with_todos(message: str = "") -> dict:
-    """Helper function to return todos in the format OpenAI expects"""
-    content = [{"type": "text", "text": message}] if message else []
-    return {
-        "content": content,
-        "structuredContent": {"tasks": todos}
-    }
-
 # Define a tool to add a todo
 @mcp.tool()
-def add_todo(title: str) -> dict:
+def add_todo(title: str) -> str:
     """Creates a todo item with the given title.
     
     Args:
@@ -38,34 +31,34 @@ def add_todo(title: str) -> dict:
     
     title = title.strip()
     if not title:
-        return reply_with_todos("Missing title.")
+        return "Missing title."
     
     todo = {"id": f"todo-{next_id}", "title": title, "completed": False}
     next_id += 1
     todos.append(todo)
     
-    return reply_with_todos(f'Added "{todo["title"]}".')
+    return f'Added "{todo["title"]}".'
 
 # Define a tool to complete a todo
 @mcp.tool()
-def complete_todo(id: str) -> dict:
+def complete_todo(id: str) -> str:
     """Marks a todo as done by id.
     
     Args:
         id: The ID of the todo to complete
     """
     if not id:
-        return reply_with_todos("Missing todo id.")
+        return "Missing todo id."
     
     todo = next((task for task in todos if task["id"] == id), None)
     if not todo:
-        return reply_with_todos(f"Todo {id} was not found.")
+        return f"Todo {id} was not found."
     
     for task in todos:
         if task["id"] == id:
             task["completed"] = True
     
-    return reply_with_todos(f'Completed "{todo["title"]}".')
+    return f'Completed "{todo["title]}".'
 
 # Create the FastMCP app
 app = mcp.streamable_http_app()
