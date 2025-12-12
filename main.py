@@ -4,8 +4,8 @@ import os
 import uvicorn
 from pydantic import BaseModel, Field
 
-# Initialize FastMCP with stateless HTTP mode
-mcp = FastMCP("Koyeb OpenAI Apps SDK Demo", stateless_http=True)
+# Initialize FastMCP with JSON response enabled
+mcp = FastMCP("Koyeb OpenAI Apps SDK Demo", json_response=True)
 
 # Read the HTML widget file
 with open("public/todo-widget.html", "r") as f:
