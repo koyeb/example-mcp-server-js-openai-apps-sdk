@@ -106,6 +106,20 @@ def complete_todo(todo_id: str = Field(..., description="The ID of the todo to c
 # Create the FastMCP app
 app = mcp.streamable_http_app()
 
+# Add CORS middleware
+try:
+    from starlette.middleware.cors import CORSMiddleware
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_methods=["*"],
+        allow_headers=["*"],
+        allow_credentials=False,
+    )
+except Exception:
+    pass
+
 port = int(os.environ.get("PORT", 8080))
 print(f"Listening on port {port}")
 
