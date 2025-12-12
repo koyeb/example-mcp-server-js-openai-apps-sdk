@@ -45,8 +45,7 @@ def count_letter(text: str, letter: str) -> int:
 # Create the FastMCP app
 app = mcp.streamable_http_app()
 
-port = int(os.environ.get("PORT", 8080))
-print(f"PORT environment variable: {os.environ.get('PORT', 'NOT SET')}")
+port = int(os.environ.get("PORT", 8000))
 print(f"Listening on port {port}")
 
 uvicorn.run(
