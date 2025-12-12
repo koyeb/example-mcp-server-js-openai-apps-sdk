@@ -56,9 +56,10 @@ def add_todo(title: str = Field(..., description="The title of the todo item")) 
     next_id += 1
     todos.append(todo)
     
-    payload = TodoPayload(tasks=todos, message=f'Added "{todo["title"]}".')
+    message = f'Added "{todo["title"]}".'
+    payload = TodoPayload(tasks=todos, message=message)
     return types.CallToolResult(
-        content=[types.TextContent(type="text", text=f'Added "{todo["title"]}".')],
+        content=[types.TextContent(type="text", text=message)],
         structuredContent=payload.model_dump(mode="json"),
         _meta=tool_meta("add_todo"),
         isError=False,
@@ -92,9 +93,10 @@ def complete_todo(todo_id: str = Field(..., description="The ID of the todo to c
         if task["id"] == todo_id:
             task["completed"] = True
     
-    payload = TodoPayload(tasks=todos, message=f'Completed "{todo["title"]}".')
+    message = f'Completed "{todo["title"]}".'
+    payload = TodoPayload(tasks=todos, message=message)
     return types.CallToolResult(
-        content=[types.TextContent(type="text", text=f'Completed "{todo["title"]}".')],
+        content=[types.TextContent(type="text", text=message)],
         structuredContent=payload.model_dump(mode="json"),
         _meta=tool_meta("complete_todo"),
         isError=False,
