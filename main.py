@@ -58,7 +58,7 @@ def complete_todo(id: str) -> str:
         if task["id"] == id:
             task["completed"] = True
     
-    return f'Completed "{todo["title]}".'
+    return f'Completed "{todo["title"]}".'
 
 # Create the FastMCP app
 app = mcp.streamable_http_app()
