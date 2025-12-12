@@ -45,10 +45,15 @@ def count_letter(text: str, letter: str) -> int:
 # Create the FastMCP app
 app = mcp.streamable_http_app()
 
-# Trust all hosts (required for Cloudflare/Koyeb proxy)
-app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
-
 port = int(os.environ.get("PORT", 8080))
 print(f"Listening on port {port}")
 
-uvicorn.run(app, host="0.0.0.0", port=port)
+uvicorn.run(
+    app, 
+    host="0.0.0.0", 
+    port=port,
+    proxy_headers=True,
+    forwarded_allow_ips="*",
+    server_header=False,
+    date_header=False
+)
