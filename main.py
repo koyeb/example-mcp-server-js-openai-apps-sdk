@@ -16,7 +16,7 @@ def get_widget() -> str:
 
 # Define a tool that generates a greeting message
 @mcp.tool()
-def greet_user(name: str, style="friendly") -> str:
+def greet_user(name: str, style="friendly") -> dict:
     """Generate a greeting for a user in different styles.
     
     Args:
@@ -28,18 +28,28 @@ def greet_user(name: str, style="friendly") -> str:
         "formal": f"Good day, {name}. It is a pleasure to make your acquaintance.",
         "casual": f"Hey {name}! What's up?",
     }
-    return styles.get(style, styles['friendly'])
+    greeting = styles.get(style, styles['friendly'])
+    
+    return {
+        "content": [{"type": "text", "text": greeting}],
+        "structuredContent": {"greeting": greeting}
+    }
 
 # Define a tool that counts occurrences of a letter in a given text
 @mcp.tool()
-def count_letter(text: str, letter: str) -> int:
+def count_letter(text: str, letter: str) -> dict:
     """Count how many times a specific letter appears in text.
     
     Args:
         text: The text to search in
         letter: The letter to count (case-insensitive)
     """
-    return text.lower().count(letter.lower())
+    count = text.lower().count(letter.lower())
+    
+    return {
+        "content": [{"type": "text", "text": f"Found {count} occurrence{'s' if count != 1 else ''} of '{letter}' in the text."}],
+        "structuredContent": {"count": count, "letter": letter, "text": text}
+    }
 
 # Create the FastMCP app
 app = mcp.streamable_http_app()
