@@ -136,9 +136,12 @@
 
       const handleSetGlobals = (event) => {
         console.log("openai:set_globals event received:", event.detail);
+        console.log("Full globals object:", JSON.stringify(event.detail?.globals, null, 2));
         const globals = event.detail?.globals;
         if (globals?.structuredContent !== undefined) {
           render();
+        } else {
+          console.warn("structuredContent not found in globals. Available keys:", Object.keys(globals || {}));
         }
       };
 
