@@ -1,16 +1,16 @@
-FROM python:3.12-slim
+FROM node:20-slim
 
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY package.json .
+RUN npm install
 
 # Copy application code and public assets
-COPY main.py .
+COPY server.js .
 COPY public/ ./public/
 
 EXPOSE 8080
 
 ENV PORT=8080
 
-CMD ["python", "main.py"]
+CMD ["node", "server.js"]
